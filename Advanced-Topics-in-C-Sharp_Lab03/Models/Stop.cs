@@ -2,5 +2,17 @@
 {
     public class Stop
     {
+        public int Number { get; set; }
+        public string Street { get; set; }
+        public string Name { get; set; }
+        public Direction Direction { get; set; }
+        public Stop(int number, string street, string name, Direction direction)
+        {
+            Number = number;
+            Street = street;
+            Name = name;
+            Direction = direction;
+
+        }
     }
 }
