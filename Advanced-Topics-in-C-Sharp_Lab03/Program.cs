@@ -56,3 +56,51 @@ scheduledStops.Add(scheduledStopNine);
 scheduledStops.Add(scheduledStopTen);
 
 
+app.MapGet("/routes", () =>
+{
+    return routes;
+});
+
+IEnumerable<ScheduledStop> GetScheduledStopsByRoute(Route route)
+{
+    return scheduledStops.Where(s => s.Route == route).OrderBy(a => a.ScheduledArrival);
+}
+
+app.MapGet("/routes/{number}", (int number) =>
+{
+    Route route = routes.FirstOrDefault(a => a.Number == number);
+
+    List<ScheduledStop> scheduledStops = GetScheduledStopsByRoute(route).Take(5).ToList();
+
+    return Results.Ok(new
+    {
+        Route = route,
+        ScheduledStops = scheduledStops
+    });
+
+});
+
+app.MapGet("/stops/{number}", (int number) =>
+{
+    Stop stop = stops.FirstOrDefault(s => s.Number == number);
+
+    return Results.Ok(stop);
+});
+
+app.MapGet("/stop/{number}/schedule", (int number, int top) =>
+{
+    Stop stop = stops.FirstOrDefault(a => a.Number == number);
+    if (stop == null)
+    {
+        return Results.NotFound();
+    }
+
+    List<ScheduledStop> scheduleds = scheduledStops.Where(b => b.Stop.Number == number)
+                                               .OrderBy(c => c.ScheduledArrival)
+                                               .Take(top)
+                                               .ToList();
+
+    return Results.Ok(scheduleds);
+});
+
+app.Run();
