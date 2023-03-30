@@ -1,41 +1,106 @@
+using Advanced_Topics_in_C_Sharp_Lab03.Models;
+using Route = Advanced_Topics_in_C_Sharp_Lab03.Models.Route;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+List<Route> routes = new List<Route>();
+
+List<Stop> stops = new List<Stop>();
+
+List<ScheduledStop> scheduledStops = new List<ScheduledStop>();
+
+Route routeOne = new Route(1, "streetOne", Direction.North, true, false);
+Route routeTwo = new Route(2, "streetTwo", Direction.East, true, true);
+routes.Add(routeOne);
+routes.Add(routeTwo);
+
+Stop stopOne = new Stop(1, "streetOne", "firstStop", Direction.South);
+Stop stopTwo = new Stop(2, "streetOne", "secondStop", Direction.West);
+Stop stopThree = new Stop(3, "streetOne", "thirdStop", Direction.Southeast);
+Stop stopFour = new Stop(4, "streetTwo", "forthStop", Direction.North);
+Stop stopFive = new Stop(5, "streetTwo", "fifthStop", Direction.Southwest);
+
+stops.Add(stopOne);
+stops.Add(stopTwo);
+stops.Add(stopThree);
+stops.Add(stopFour);
+stops.Add(stopFive);
+
+ScheduledStop scheduledStopOne = new ScheduledStop(1, stopOne, routeOne, DateTime.Now);
+ScheduledStop scheduledStopTwo = new ScheduledStop(2, stopTwo, routeOne, DateTime.Now.AddMinutes(10));
+ScheduledStop scheduledStopThree = new ScheduledStop(3, stopThree, routeOne, DateTime.Now.AddMinutes(20));
+ScheduledStop scheduledStopFour = new ScheduledStop(4, stopFour, routeOne, DateTime.Now.AddMinutes(30));
+ScheduledStop scheduledStopFive = new ScheduledStop(5, stopFive, routeOne, DateTime.Now.AddMinutes(40));
+
+ScheduledStop scheduledStopSix = new ScheduledStop(6, stopFive, routeTwo, DateTime.Now);
+ScheduledStop scheduledStopSeven = new ScheduledStop(7, stopFour, routeTwo, DateTime.Now.AddMinutes(10));
+ScheduledStop scheduledStopEight = new ScheduledStop(8, stopThree, routeTwo, DateTime.Now.AddMinutes(20));
+ScheduledStop scheduledStopNine = new ScheduledStop(9, stopTwo, routeTwo, DateTime.Now.AddMinutes(30));
+ScheduledStop scheduledStopTen = new ScheduledStop(10, stopOne, routeTwo, DateTime.Now.AddMinutes(40));
+
+scheduledStops.Add(scheduledStopOne);
+scheduledStops.Add(scheduledStopTwo);
+scheduledStops.Add(scheduledStopThree);
+scheduledStops.Add(scheduledStopFour);
+scheduledStops.Add(scheduledStopFive);
+scheduledStops.Add(scheduledStopSix);
+scheduledStops.Add(scheduledStopSeven);
+scheduledStops.Add(scheduledStopEight);
+scheduledStops.Add(scheduledStopNine);
+scheduledStops.Add(scheduledStopTen);
+
+
+app.MapGet("/routes", () =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    return routes;
+});
+
+IEnumerable<ScheduledStop> GetScheduledStopsByRoute(Route route)
+{
+    return scheduledStops.Where(s => s.Route == route).OrderBy(a => a.ScheduledArrival);
 }
 
-var summaries = new[]
+app.MapGet("/routes/{number}", (int number) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    Route route = routes.FirstOrDefault(a => a.Number == number);
 
-app.MapGet("/weatherforecast", () =>
+    List<ScheduledStop> scheduledStops = GetScheduledStopsByRoute(route).Take(5).ToList();
+
+    return Results.Ok(new
+    {
+        Route = route,
+        ScheduledStops = scheduledStops
+    });
+
+});
+
+app.MapGet("/stops/{number}", (int number) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    Stop stop = stops.FirstOrDefault(s => s.Number == number);
+
+    return Results.Ok(stop);
+});
+
+app.MapGet("/stop/{number}/schedule", (int number, int top) =>
+{
+    Stop stop = stops.FirstOrDefault(a => a.Number == number);
+    if (stop == null)
+    {
+        return Results.NotFound();
+    }
+
+    List<ScheduledStop> scheduleds = scheduledStops.Where(b => b.Stop.Number == number)
+                                               .OrderBy(c => c.ScheduledArrival)
+                                               .Take(top)
+                                               .ToList();
+
+    return Results.Ok(scheduleds);
+});
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
