@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced-Topics-in-C-Sharp", "Advanced-Topics-in-C-Sharp\Advanced-Topics-in-C-Sharp.csproj", "{DD265AA6-09AC-4B75-966F-D38DF8720F82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advanced-Topics-in-C-Sharp", "Advanced-Topics-in-C-Sharp\Advanced-Topics-in-C-Sharp.csproj", "{DD265AA6-09AC-4B75-966F-D38DF8720F82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced-Topics-in-C-Sharp_Lab03", "Advanced-Topics-in-C-Sharp_Lab03\Advanced-Topics-in-C-Sharp_Lab03.csproj", "{299F299A-FAE2-417F-958F-38C61E3D8F67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advanced-Topics-in-C-Sharp_Lab03", "Advanced-Topics-in-C-Sharp_Lab03\Advanced-Topics-in-C-Sharp_Lab03.csproj", "{299F299A-FAE2-417F-958F-38C61E3D8F67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced-Topics-in-C-Sharp_Lab05", "Advanced-Topics-in-C-Sharp_Lab05\Advanced-Topics-in-C-Sharp_Lab05.csproj", "{0866BDB5-1118-4E33-AD45-8B7577568F4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{299F299A-FAE2-417F-958F-38C61E3D8F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{299F299A-FAE2-417F-958F-38C61E3D8F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{299F299A-FAE2-417F-958F-38C61E3D8F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0866BDB5-1118-4E33-AD45-8B7577568F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0866BDB5-1118-4E33-AD45-8B7577568F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0866BDB5-1118-4E33-AD45-8B7577568F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0866BDB5-1118-4E33-AD45-8B7577568F4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
