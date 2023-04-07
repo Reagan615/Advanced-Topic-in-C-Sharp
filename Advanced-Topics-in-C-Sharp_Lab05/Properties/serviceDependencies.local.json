@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:Advanced_Topics_in_C_Sharp_Lab05ContextConnection"
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:Advanced_Topics_in_C_Sharp_Lab05Context"
+    }
+  }
+}
